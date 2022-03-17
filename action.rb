@@ -1,13 +1,13 @@
 class Action
   
-  def execute(robot, command)
+  def execute(table, robot, command)
     cmd = command.split(" ").first.upcase
     case cmd
     when "PLACE"
       place(robot, command)
       robot.update_robot(true)
     when "MOVE"
-       robot.in_place? ? move(robot) : invalid_input
+      robot.in_place? ? move(table, robot) : invalid_input
     when "LEFT"
       robot.in_place? ? left(robot) : invalid_input
     when "RIGHT"
@@ -26,7 +26,7 @@ class Action
     robot.f = args.split(",")[2]
   end
 
-  def move(robot)
+  def move(table, robot)
     x = robot.x
     y = robot.y
     f = robot.f
@@ -35,10 +35,10 @@ class Action
     x += 1 if f.match?('EAST')
     x -= 1 if f.match?('WEST')
 
+    return table.not_valid_position_message unless table.valid_position?(x,y)
     robot.x = x
     robot.y = y
     robot.f = f
-    #CHECK IF IT DOESN'T FELL TO THE TABLE
   end
 
   def left(robot)
@@ -62,13 +62,6 @@ class Action
   private
 
   OPTIONS = %w[WEST NORTH EAST SOUTH].freeze
-
-
-  # def place_valid?(command)
-  #   q = command.split(" ").last
-  #   return true unless q.count < 3 || q.count > 3 || !OPTIONS.include?(q[2])
-  #   false
-  # end
 
   def prev_option(direction)
     return unless OPTIONS.include?(direction)

@@ -8,6 +8,6 @@ class HandleInput
     end
 
     def execute(command)
-        action.execute(robot, command)
+        action.execute(table, robot, command)
     end
 end

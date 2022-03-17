@@ -9,13 +9,17 @@ class Table
     valid_x?(x) && valid_y?(y)
   end
 
+  def not_valid_position_message
+    puts "Unable to perform this action, position is beyond the table top."
+  end
+
   private
 
   def valid_x?(x)
-    x >= 0 && x <= @x - 1
+    x >= 0 && x <= @x
   end
 
   def valid_y?(y)
-    y >= 0 && y <= @y - 1
+    y >= 0 && y <= @y
   end
 end
