@@ -52,7 +52,7 @@ class Action
   def report(robot)
     message = "Output: #{robot.x},#{robot.y},#{robot.f} \n"
     puts message
-    robot.position
+    message
   end
 
   def invalid_input

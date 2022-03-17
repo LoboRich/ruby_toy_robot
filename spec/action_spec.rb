@@ -24,6 +24,12 @@ describe 'Toy Robot' do
             expect(robot.position).to eq({x: 1, y: 3, f: 'EAST'})
         end
 
+        it 'performs REPORT' do 
+            place = action.execute(robot, 'PLACE 1,3,EAST')
+            output = action.execute(robot, 'REPORT')
+            expect(output).to match('Output: 1,3,EAST')
+        end
+        
     end
 
 end
