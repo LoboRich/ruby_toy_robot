@@ -5,14 +5,17 @@ class Action
     case cmd
     when "PLACE"
       place(robot, command)
+      robot.update_robot(true)
     when "MOVE"
-      move(robot)
+       robot.in_place? ? move(robot) : invalid_input
     when "LEFT"
-      left(robot)
+      robot.in_place? ? left(robot) : invalid_input
     when "RIGHT"
-      right(robot)
+      robot.in_place? ? right(robot) : invalid_input
     when "REPORT"
-      report(robot)
+      robot.in_place? ? report(robot) : invalid_input
+    else
+      invalid_input
     end
   end
 
@@ -21,7 +24,6 @@ class Action
     robot.x = args.split(",")[0].to_i
     robot.y = args.split(",")[1].to_i
     robot.f = args.split(",")[2]
-    
   end
 
   def move(robot)
@@ -49,13 +51,24 @@ class Action
 
   def report(robot)
     message = "Output: #{robot.x},#{robot.y},#{robot.f} \n"
-    $stdout.print message
+    puts message
     robot.position
+  end
+
+  def invalid_input
+    puts "Invalid input or the robot is not placed." 
   end
 
   private
 
   OPTIONS = %w[WEST NORTH EAST SOUTH].freeze
+
+
+  # def place_valid?(command)
+  #   q = command.split(" ").last
+  #   return true unless q.count < 3 || q.count > 3 || !OPTIONS.include?(q[2])
+  #   false
+  # end
 
   def prev_option(direction)
     return unless OPTIONS.include?(direction)
