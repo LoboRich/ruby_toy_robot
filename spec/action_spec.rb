@@ -1,24 +1,29 @@
 require 'rspec'
-require_relative 'robot'
-require_relative 'action'
+require_relative '../robot'
+require_relative '../action'
 
 describe 'Toy Robot' do
     describe 'action' do
+        let(:robot) { Robot.new }
+        let(:action) { Action.new }
+
         it 'performs PLACE' do 
-            r = Robot.new
-            a = Action.new
-            place = a.execute(r, 'PLACE 1,2,NORTH')
-            expect(r.position).to eq({x: 1, y: 2, f: 'NORTH'})
+            place = action.execute(robot, 'PLACE 1,2,NORTH')
+            expect(robot.position).to eq({x: 1, y: 2, f: 'NORTH'})
         end
+
+        it 'performs LEFT' do 
+            place = action.execute(robot, 'PLACE 1,3,NORTH')
+            move = action.execute(robot, 'LEFT')
+            expect(robot.position).to eq({x: 1, y: 3, f: 'WEST'})
+        end
+
+        it 'performs RIGHT' do 
+            place = action.execute(robot, 'PLACE 1,3,NORTH')
+            move = action.execute(robot, 'RIGHT')
+            expect(robot.position).to eq({x: 1, y: 3, f: 'EAST'})
+        end
+
     end
 
-    # describe 'set position' do
-    #     it 'sets position' do 
-    #         r = Robot.new
-    #         r.x = 1
-    #         r.y = 2
-    #         r.f = 'NORTH'
-    #         expect(r.position).to eq({x: 1, y: 2, f: 'NORTH'})
-    #     end
-    # end
 end
